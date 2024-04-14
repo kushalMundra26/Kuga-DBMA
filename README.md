@@ -16,7 +16,7 @@ Kuga DBMS is a simple database management system implemented in Python. It allow
     cd kuga-dbms
     ```
 
-4. **Execute the Code**: Run the `main.py` file using Python:
+4. **Execute the Code**: Run the `kuga.py` file using Python:
     ```
     python kuga.py
     ```
