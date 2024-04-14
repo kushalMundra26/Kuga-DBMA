@@ -26,20 +26,25 @@ Kuga DBMS is a simple database management system implemented in Python. It allow
 ## Query Formats
 
 ### 1. Create Table
-
+```
 create table <table_name> <column_headings>
+```
 
 - `<table_name>`: Name of the table to be created.
 - `<column_headings>`: Comma-separated list of column headings enclosed in parentheses. Example: `(Name, Age, Gender)`
 
 ### 2. Insert Data
+```
 insert in <table_name> (<data_entries>)
+```
 
 - `<table_name>`: Name of the table to insert data into.
 - `<data_entries>`: Comma-separated list of data entries enclosed in parentheses. Example: `(John, 30, Male)`
 
 ### 3. Update Data
+```
 update <table_name> <column_name> <new_value> where <condition_column> = <condition_value>
+```
 
 - `<table_name>`: Name of the table to update.
 - `<column_name>`: Name of the column to update.
@@ -48,27 +53,35 @@ update <table_name> <column_name> <new_value> where <condition_column> = <condit
 - `<condition_value>`: Value that must match the condition column for the update to occur.
 
 ### 4. Delete Data
+```
 delete from <table_name> where <condition_column> = <condition_value>
+```
 
 - `<table_name>`: Name of the table to delete data from.
 - `<condition_column>`: Column to use for the condition.
 - `<condition_value>`: Value that must match the condition column for the deletion to occur.
 
 ### 5. Search Data
+```
 select * from <table_name> where <condition_column> = <condition_value>
+```
 
 - `<table_name>`: Name of the table to search.
 - `<condition_column>`: Column to use for the condition.
 - `<condition_value>`: Value to search for in the condition column.
 
 ### 6. Export Data to CSV
+```
 export to <csv_file_name> from <table_name>
+```
 
 - `<csv_file_name>`: Name of the CSV file to export data to.
 - `<table_name>`: Name of the table to export data from.
 
 ### 7. Import Data from CSV
+```
 import <csv_file_name> as <table_name>
+```
 
 - `<csv_file_name>`: Name of the CSV file to import data from.
 - `<table_name>`: Name of the table to import data into.
