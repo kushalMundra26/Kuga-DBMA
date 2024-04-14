@@ -61,7 +61,22 @@ delete from <table_name> where <condition_column> = <condition_value>
 - `<condition_column>`: Column to use for the condition.
 - `<condition_value>`: Value that must match the condition column for the deletion to occur.
 
-### 5. Search Data
+### 5. Print the entire table
+```
+select * from <table_name>
+```
+
+- `<table_name>`: Name of the table to search.
+
+### 6. Print Specific Columns
+```
+select <column_names> from <table_name>
+```
+
+- `<column_names>` : List of columns that you want to print. Example: `id,first_name,gender`
+- `<table_name>`: Name of the table to search.
+
+### 7. Search Data
 ```
 select * from <table_name> where <condition_column> = <condition_value>
 ```
@@ -70,7 +85,17 @@ select * from <table_name> where <condition_column> = <condition_value>
 - `<condition_column>`: Column to use for the condition.
 - `<condition_value>`: Value to search for in the condition column.
 
-### 6. Export Data to CSV
+### 8. Search and print specific columns with conditions
+```
+select <column_names> from <table_name> where <condition_column> = <condition_value>
+```
+
+- `<column_names>` : List of columns that you want to print. Example: `id,first_name,gender`
+- `<table_name>`: Name of the table to search.
+- `<condition_column>`: Column to use for the condition.
+- `<condition_value>`: Value to search for in the condition column.
+
+### 9. Export Data to CSV
 ```
 export to <csv_file_name> from <table_name>
 ```
@@ -78,7 +103,7 @@ export to <csv_file_name> from <table_name>
 - `<csv_file_name>`: Name of the CSV file to export data to.
 - `<table_name>`: Name of the table to export data from.
 
-### 7. Import Data from CSV
+### 10. Import Data from CSV
 ```
 import <csv_file_name> as <table_name>
 ```
