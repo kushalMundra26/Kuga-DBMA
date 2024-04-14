@@ -18,7 +18,7 @@ Kuga DBMS is a simple database management system implemented in Python. It allow
 
 4. **Execute the Code**: Run the `main.py` file using Python:
     ```
-    python main.py
+    python kuga.py
     ```
 
 5. **Enter Queries**: Once the program is running, you can enter queries in the command line interface. Follow the specified formats described below.
