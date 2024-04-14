@@ -8,7 +8,7 @@ Kuga DBMS is a simple database management system implemented in Python. It allow
 
 2. **Clone the Repository**: Clone this repository to your local machine using the following command:
     ```
-    git clone https://github.com/your_username/kuga-dbms.git
+    git clone https://github.com/kushalMundra26/kuga-dbms.git
     ```
 
 3. **Navigate to the Directory**: Enter the cloned directory:
