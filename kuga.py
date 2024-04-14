@@ -211,6 +211,74 @@ class DBMS:
         else:
             print("Table not found.")
             return []
+        
+    def search_and_print_columns(self, table_name, column_names):
+        table = self.tables.get(table_name)
+        if table:
+            # Split the column_names string into individual column names
+            columns_to_print = [column.strip() for column in column_names.split(',')]
+            
+            # Check if all specified columns exist in the table
+            for column_name in columns_to_print:
+                if column_name not in table['column_names']:
+                    print("Column '{}' not found.".format(column_name))
+                    return
+
+            # Print column headings
+            print("Columns to Print:", columns_to_print)
+
+            # Print data rows
+            for row in table['data']:
+                print_row = []
+                for column_name in table['column_names']:
+                    if column_name in columns_to_print:
+                        print_row.append(row[table['column_names'].index(column_name)])
+                print(print_row)
+
+        else:
+            print("Table not found.")
+
+    def search_and_print_columns_with_conditions(self, table_name, column_names, condition_column, condition_value):
+        table = self.tables.get(table_name)
+        if table:
+            # Split the column_names string into individual column names
+            columns_to_print = [column.strip() for column in column_names.split(',')]
+
+            # Check if all specified columns exist in the table
+            for column_name in columns_to_print:
+                if column_name not in table['column_names']:
+                    print("Column '{}' not found.".format(column_name))
+                    return
+
+            # Check if the condition column exists
+            if condition_column not in table['column_names']:
+                print("Condition column '{}' not found.".format(condition_column))
+                return
+
+            # Print column headings
+            print("Columns to Print:", columns_to_print)
+
+            # Print data rows that satisfy the condition
+            result = []
+            for row in table['data']:
+                if str(row[table['column_names'].index(condition_column)]) == str(condition_value):
+                    print_row = []
+                    for column_name in table['column_names']:
+                        if column_name in columns_to_print:
+                            print_row.append(row[table['column_names'].index(column_name)])
+                    result.append(print_row)
+            if result:
+                return result
+            else:
+                print("No records found with the specified condition.")
+                return []
+
+        else:
+            print("Table not found.")
+            return []
+
+
+
 
     def update(self, table_name, key_column, key_value, update_dict):
         table = self.tables.get(table_name)
@@ -320,7 +388,7 @@ def check_tokens(tokens):
         print("Format 2: insert in <csv_table_name> <data_entries>")
         print("Format 3: update <csv_table_name> <column_name> <new_value> where <condition_column> = <condition_value>")
         print("Format 4: delete from <csv_table_name> where <condition_column> = <condition_value>")
-        print("Format 5: select * from <csv_table_name> where <condition_column> = <condition_value>")
+        print("Format 5: select <column_names or *> from <csv_table_name> where <condition_column> = <condition_value>")
         print("Format 6: export to <csv_file_name> from <csv_table_name>")
         print("Format 7: import <csv_file_name> as <csv_table_name>")
         return False
@@ -332,16 +400,19 @@ def check_tokens(tokens):
         return True
     elif tokens[0] == "select" and tokens[1] == "*" and tokens[2] == "from":
         return True
+    elif tokens[0] == "select" and tokens[1] != "*" and tokens[2] == "from":
+        return True
     elif tokens[0] == "export" and tokens[1] == "to":
         return True
     elif tokens[0] == "import":
         return True
     print("Error: Invalid command format.")
+    print("Error: Insufficient tokens.")
     print("Format 1: create table <table_name> <column_headings>")
     print("Format 2: insert in <csv_table_name> <data_entries>")
     print("Format 3: update <csv_table_name> <column_name> <new_value> where <condition_column> = <condition_value>")
     print("Format 4: delete from <csv_table_name> where <condition_column> = <condition_value>")
-    print("Format 5: select * from <csv_table_name> where <condition_column> = <condition_value>")
+    print("Format 5: select <column_names or *> from <csv_table_name> where <condition_column> = <condition_value>")
     print("Format 6: export to <csv_file_name> from <csv_table_name>")
     print("Format 7: import <csv_file_name> as <csv_table_name>")
     return False
@@ -361,7 +432,7 @@ def main():
         table_name = tokens[2]
         data_to_insert = [token.strip('()') for token in tokens[3].split(',')]  # Remove brackets
         dbms.insert(table_name, data_to_insert)
-        dbms.display_table(table_name)
+        # dbms.display_table(table_name)
         
     # If the command is in the "update" format, update data in the CSV file
     elif tokens[0] == "update":
@@ -371,14 +442,14 @@ def main():
         condition_column = tokens[5]
         condition_value = tokens[7]
         dbms.update(table_name, condition_column, condition_value,{column_name:new_value} )
-        dbms.display_table(table_name)
+        # dbms.display_table(table_name)
     # If the command is in the "delete from" format, delete data from the CSV file
     elif tokens[0] == "delete" and tokens[1] == "from":
         table_name = tokens[2]
         condition_column = tokens[4]
         condition_value = tokens[6]
         dbms.delete(table_name, condition_column, condition_value)
-        dbms.display_table(table_name)
+        # dbms.display_table(table_name)
 
     elif tokens[0] == "select" and tokens[1] == "*" and tokens[2] == "from":
         if "where" not in tokens:
@@ -389,6 +460,18 @@ def main():
             condition_column = tokens[5]
             condition_value = tokens[7]
             print(dbms.search(table_name, condition_column, condition_value))
+
+    elif tokens[0] == "select" and tokens[1] != "*" and tokens[2] == "from":
+        if "where" not in tokens:
+            table_name = tokens[3]
+            column_name = tokens[1]
+            dbms.search_and_print_columns(table_name, column_name)
+        else:
+            table_name = tokens[3]
+            condition_column = tokens[5]
+            column_name = tokens[1]
+            condition_value = tokens[7]
+            print(dbms.search_and_print_columns_with_conditions(table_name,column_name, condition_column, condition_value))
 
     elif tokens[0] == "export" and tokens[1] == "to":
         file_name = tokens[2]+".csv"
@@ -415,11 +498,12 @@ def main():
         dbms.display_table(table_name)
 
 if __name__ == "__main__":
+    print("Error: Insufficient tokens.")
     print("Format 1: create table <table_name> <column_headings>")
     print("Format 2: insert in <csv_table_name> <data_entries>")
     print("Format 3: update <csv_table_name> <column_name> <new_value> where <condition_column> = <condition_value>")
     print("Format 4: delete from <csv_table_name> where <condition_column> = <condition_value>")
-    print("Format 5: select * from <csv_table_name> where <condition_column> = <condition_value>")
+    print("Format 5: select <column_names or *> from <csv_table_name> where <condition_column> = <condition_value>")
     print("Format 6: export to <csv_file_name> from <csv_table_name>")
     print("Format 7: import <csv_file_name> as <csv_table_name>")
     dbms = DBMS()
