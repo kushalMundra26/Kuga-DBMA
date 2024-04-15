@@ -498,7 +498,6 @@ def main():
         dbms.display_table(table_name)
 
 if __name__ == "__main__":
-    print("Error: Insufficient tokens.")
     print("Format 1: create table <table_name> <column_headings>")
     print("Format 2: insert in <csv_table_name> <data_entries>")
     print("Format 3: update <csv_table_name> <column_name> <new_value> where <condition_column> = <condition_value>")
